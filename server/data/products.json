@@ -1,0 +1,92 @@
+{
+  "products": [
+    {
+      "id": 3,
+      "title": "iPod Nano 7th Gen",
+      "description": "Available storage capacity: 16gb",
+      "price": 99,
+      "category": "ipod",
+      "image": "https://i.ebayimg.com/images/g/ln4AAOSwKCRmlMoz/s-l500.png",
+      "inStock": false,
+      "createdAt": "2024-01-14T09:45:00.000Z",
+      "updatedAt": "2025-12-07T18:51:13.083Z"
+    },
+    {
+      "id": 6,
+      "title": "iPod Classic 5th Gen",
+      "description": "Available storage capacity: 30gb (128ram), 60gb and 80gb (256ram)",
+      "price": 199,
+      "category": "ipod",
+      "image": "https://i.ebayimg.com/images/g/S1MAAOSw5rRmxGw2/s-l500.jpg",
+      "inStock": true,
+      "createdAt": "2025-12-07T18:30:47.009Z",
+      "updatedAt": "2025-12-07T18:39:43.732Z"
+    },
+    {
+      "id": 7,
+      "title": "iPod Nano 6th Gen",
+      "description": "Available storage capacity: 8gb, 16gb",
+      "price": 99,
+      "category": "ipod",
+      "image": "https://i.ebayimg.com/images/g/PtYAAOSw3Sla127v/s-l1600.jpg",
+      "inStock": true,
+      "createdAt": "2025-12-07T18:36:29.325Z",
+      "updatedAt": "2025-12-07T18:51:18.049Z"
+    },
+    {
+      "id": 8,
+      "title": "iPod Classic 3rd Gen",
+      "description": "Available storage capacity: 10gb, 15gb, 30gb",
+      "price": 179,
+      "category": "ipod",
+      "image": "https://i.ebayimg.com/images/g/vH4AAOSwAUlkio3V/s-l1600.jpg",
+      "inStock": false,
+      "createdAt": "2025-12-07T18:39:32.678Z",
+      "updatedAt": "2025-12-07T18:51:22.869Z"
+    },
+    {
+      "id": 9,
+      "title": "Kinera Celest Phoenixcall",
+      "description": "Available specs: Purple-Blue-3.5mm, Purple-Blue-4.4mm",
+      "price": 129,
+      "category": "headphones",
+      "image": "https://ae04.alicdn.com/kf/S62aae1e38e634e298802d5664758dfc5E.jpg",
+      "inStock": true,
+      "createdAt": "2025-12-07T18:42:30.985Z",
+      "updatedAt": "2025-12-07T18:51:33.739Z"
+    },
+    {
+      "id": 10,
+      "title": "Sennheiser IE300",
+      "description": "Available specs: Black-3.5mm",
+      "price": 219,
+      "category": "headphones",
+      "image": "https://avatars.mds.yandex.net/get-mpic/5289292/img_id9068619372867069528.jpeg/orig",
+      "inStock": false,
+      "createdAt": "2025-12-07T18:44:37.127Z",
+      "updatedAt": "2025-12-07T18:51:38.166Z"
+    },
+    {
+      "id": 11,
+      "title": "FIIO JD1",
+      "description": "Available specs: Silver-3.5mm, Silver-3.5mm+Type-C-Adapter, Black-3.5mm, Black-3.5mm+Type-C-Adapter",
+      "price": 19,
+      "category": "headphones",
+      "image": "https://static.onlinetrade.ru/img/items/m/fiio_jd1_silver_2847048_5.jpg",
+      "inStock": true,
+      "createdAt": "2025-12-07T18:47:24.448Z",
+      "updatedAt": "2025-12-07T18:51:44.657Z"
+    },
+    {
+      "id": 12,
+      "title": "Apple Earpods",
+      "description": "Available specs: White-3.5mm, White-Type-C (Loseless support), White-Lightning",
+      "price": 29,
+      "category": "headphones",
+      "image": "https://avatars.mds.yandex.net/get-mpic/5284155/2a00000193af5b2f4ae488d77f738f1a92a1/orig",
+      "inStock": false,
+      "createdAt": "2025-12-07T18:50:09.740Z",
+      "updatedAt": "2025-12-07T18:51:49.293Z"
+    }
+  ]
+}
