@@ -1,7 +1,24 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-const Header = ({ cartCount, cartTotal }) => {
+const Header = ({ cartCount, cartTotal, user, onLogout }) => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    if (onLogout) {
+      onLogout();
+    }
+    navigate('/');
+  };
+
+  const handleProfileClick = () => {
+    if (user) {
+      navigate('/profile');
+    } else {
+      navigate('/login');
+    }
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
       <div className="container">
@@ -30,13 +47,41 @@ const Header = ({ cartCount, cartTotal }) => {
             <li className="nav-item">
               <Link className="nav-link" to="/category/headphones">Headphones</Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/admin">Admin Panel</Link>
-            </li>
           </ul>
           
           <div className="d-flex align-items-center">
-            <Link to="/cart" className="btn btn-outline-primary position-relative me-3">
+            {user ? (
+              <div className="d-flex align-items-center me-3">
+                {/* Кнопка Profile (теперь кликабельная) */}
+                <button 
+                  className="btn btn-outline-primary"
+                  onClick={handleProfileClick}
+                  title="Go to Profile"
+                >
+                  <i className="bi bi-person-circle me-2"></i>
+                  {user.name || user.email.split('@')[0]}
+                  {user.role === 'admin' && (
+                    <span className="badge bg-danger ms-2">Admin</span>
+                  )}
+                </button>
+                
+                {/* Кнопка Logout рядом */}
+                <button 
+                  className="btn btn-outline-danger ms-2"
+                  onClick={handleLogout}
+                  title="Logout"
+                >
+                  <i className="bi bi-box-arrow-right"></i>
+                </button>
+              </div>
+            ) : (
+              <div className="me-3">
+                <Link to="/login" className="btn btn-outline-primary me-2">Login</Link>
+                <Link to="/register" className="btn btn-primary">Register</Link>
+              </div>
+            )}
+            
+            <Link to="/cart" className="btn btn-outline-primary position-relative">
               <i className="bi bi-cart3"></i>
               {cartCount > 0 && (
                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -44,10 +89,10 @@ const Header = ({ cartCount, cartTotal }) => {
                 </span>
               )}
               <span className="ms-2">Cart</span>
+              {cartTotal > 0 && (
+                <span className="ms-2 text-success fw-bold">${cartTotal.toFixed(2)}</span>
+              )}
             </Link>
-            {cartTotal > 0 && (
-              <span className="text-success fw-bold">${cartTotal.toFixed(2)}</span>
-            )}
           </div>
         </div>
       </div>

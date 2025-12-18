@@ -1,87 +1,106 @@
-
-.App {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+/* Стили для профиля */
+.order-card {
+  transition: all 0.3s ease;
+  border-left: 4px solid #0d6efd;
 }
 
-.product-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid #e0e0e0;
+.order-card:hover {
+  transform: translateX(5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-.product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+.order-card.Delivered {
+  border-left-color: #198754;
 }
 
-.card-img-top-container {
-  position: relative;
-  background-color: #f8f9fa;
-  padding: 20px;
-  text-align: center;
+.order-card.Processing {
+  border-left-color: #ffc107;
 }
 
-.navbar-brand {
-  font-weight: bold;
-  font-size: 1.5rem;
+.order-card.Cancelled {
+  border-left-color: #dc3545;
 }
 
-.navbar-brand .apple-icon {
-  color: #007aff;
-  margin-right: 5px;
-}
-
-.cart-item {
-  border-bottom: 1px solid #dee2e6;
-  padding: 15px 0;
-}
-
-.cart-item:last-child {
-  border-bottom: none;
-}
-
-.admin-form {
-  background-color: #f8f9fa;
+/* Статистические карточки */
+.stat-card {
   border-radius: 10px;
-  padding: 20px;
+  overflow: hidden;
 }
 
-.btn-primary {
-  background-color: #007aff;
-  border-color: #007aff;
+.stat-card .card-body {
+  padding: 1.5rem;
 }
 
-.btn-primary:hover {
-  background-color: #0056cc;
-  border-color: #0056cc;
+.stat-card h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
 }
 
+/* Аватар */
+.avatar-circle {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+/* Прогресс-бар */
+.progress {
+  background-color: #e9ecef;
+  border-radius: 4px;
+}
+
+.progress-bar {
+  border-radius: 4px;
+}
+
+/* Навигация профиля */
+.profile-nav .list-group-item {
+  border: none;
+  padding: 0.75rem 1.25rem;
+  color: #495057;
+  transition: all 0.2s;
+}
+
+.profile-nav .list-group-item:hover {
+  background-color: #f8f9fa;
+  color: #0d6efd;
+}
+
+.profile-nav .list-group-item.active {
+  background-color: #0d6efd;
+  color: white;
+  border-color: #0d6efd;
+}
+
+/* Кнопка Logout в хедере */
+.btn-logout-header {
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s;
+}
+
+.btn-logout-header:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Адаптивность */
 @media (max-width: 768px) {
-  .display-4 {
+  .avatar-circle {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+  
+  .stat-card h2 {
     font-size: 2rem;
   }
   
-  .lead {
-    font-size: 1rem;
+  .order-card {
+    font-size: 0.9rem;
   }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.fade-in {
-  animation: fadeIn 0.5s ease-in;
-}
-
-.alert {
-  border-radius: 8px;
-  border: none;
-}
-
-.alert-info {
-  background-color: #e3f2fd;
-  color: #0d47a1;
 }

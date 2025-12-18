@@ -1,25 +1,61 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-const Cart = ({ cart, removeFromCart, updateQuantity, total }) => {
+const Cart = ({ cart, removeFromCart, updateQuantity, total, user }) => {
+  const navigate = useNavigate();
+
   if (cart.length === 0) {
     return (
-      <div className="text-center py-5">
-        <div className="card py-5">
-          <i className="bi bi-cart-x display-1 text-muted"></i>
-          <h3 className="mt-3">Your cart is empty</h3>
-          <p className="text-muted">Add some products to your cart!</p>
-          <Link to="/" className="btn btn-primary mt-3">
-            Continue Shopping
-          </Link>
+      <div className="container mt-4">
+        <div className="text-center py-5">
+          <div className="card py-5">
+            <i className="bi bi-cart-x display-1 text-muted"></i>
+            <h3 className="mt-3">Your cart is empty</h3>
+            <p className="text-muted">Add some products to your cart!</p>
+            <Link to="/" className="btn btn-primary mt-3">
+              Continue Shopping
+            </Link>
+            {!user && (
+              <div className="mt-3">
+                <p className="text-muted">Want to save your cart?</p>
+                <Link to="/login" className="btn btn-outline-primary btn-sm">
+                  Login to save cart
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     );
   }
 
+  const handleCheckout = () => {
+    if (!user) {
+      if (window.confirm('You need to login to checkout. Go to login page?')) {
+        navigate('/login');
+      }
+      return;
+    }
+    
+    // В реальном приложении здесь был бы процесс оформления заказа
+    alert(`Order placed successfully! Total: $${total.toFixed(2)}`);
+    // Очищаем корзину
+    cart.forEach(item => removeFromCart(item.id));
+  };
+
   return (
-    <div className="cart">
+    <div className="container mt-4">
       <h1 className="mb-4">Shopping Cart</h1>
+      
+      {user && (
+        <div className="alert alert-info mb-4">
+          <i className="bi bi-person-check me-2"></i>
+          Shopping as: <strong>{user.name || user.email}</strong>
+          {user.role === 'admin' && (
+            <span className="badge bg-danger ms-2">Admin</span>
+          )}
+        </div>
+      )}
       
       <div className="row">
         <div className="col-lg-8">
@@ -132,9 +168,21 @@ const Cart = ({ cart, removeFromCart, updateQuantity, total }) => {
                 </strong>
               </div>
               
-              <button className="btn btn-primary btn-lg w-100 mb-3">
-                Proceed to Checkout
+              <button 
+                className="btn btn-primary btn-lg w-100 mb-3"
+                onClick={handleCheckout}
+              >
+                {user ? 'Proceed to Checkout' : 'Login to Checkout'}
               </button>
+              
+              {!user && (
+                <div className="alert alert-warning">
+                  <small>
+                    <i className="bi bi-exclamation-triangle me-1"></i>
+                    Please login to save your cart and checkout
+                  </small>
+                </div>
+              )}
               
               <div className="text-center">
                 <small className="text-muted">
@@ -145,15 +193,26 @@ const Cart = ({ cart, removeFromCart, updateQuantity, total }) => {
             </div>
           </div>
           
-          <div className="card mt-4">
-            <div className="card-body">
-              <h6 className="card-title">Promo Code</h6>
-              <div className="input-group">
-                <input type="text" className="form-control" placeholder="Enter code" />
-                <button className="btn btn-outline-secondary">Apply</button>
+          {user && (
+            <div className="card mt-4">
+              <div className="card-body">
+                <h6 className="card-title">Customer Info</h6>
+                <div className="mb-2">
+                  <small className="text-muted">Email:</small>
+                  <div>{user.email}</div>
+                </div>
+                {user.name && (
+                  <div className="mb-2">
+                    <small className="text-muted">Name:</small>
+                    <div>{user.name}</div>
+                  </div>
+                )}
+                <Link to="/profile" className="btn btn-outline-secondary btn-sm w-100">
+                  Update Shipping Info
+                </Link>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

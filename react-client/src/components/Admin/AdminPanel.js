@@ -42,34 +42,49 @@ const AdminPanel = ({ fetchProducts }) => {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    try {
-      if (editingProduct) {
-        await axios.put(`${API_URL}/products/${editingProduct.id}`, formData);
-        alert('Product updated successfully!');
-      } else {
-        await axios.post(`${API_URL}/products`, formData);
-        alert('Product added successfully!');
-      }
-      
-      setFormData({
-        title: '',
-        description: '',
-        price: '',
-        category: 'ipod',
-        image: '',
-        inStock: true
-      });
-      setEditingProduct(null);
-      loadProducts();
-      if (fetchProducts) fetchProducts();
-    } catch (error) {
-      console.error('Error saving product:', error);
-      alert('Error saving product');
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  
+  try {
+    const productData = {
+      title: formData.title,
+      description: formData.description,
+      price: parseFloat(formData.price),
+      category: formData.category,
+      image: formData.image || undefined, // undefined вместо пустой строки
+      inStock: formData.inStock
+    };
+
+    if (editingProduct) {
+      // Используем PUT для обновления
+      await axios.put(`${API_URL}/products/${editingProduct.id}`, productData);
+      alert('Product updated successfully!');
+    } else {
+      // Используем POST для создания
+      await axios.post(`${API_URL}/products`, productData);
+      alert('Product added successfully!');
     }
-  };
+    
+    // Сброс формы
+    setFormData({
+      title: '',
+      description: '',
+      price: '',
+      category: 'ipod',
+      image: '',
+      inStock: true
+    });
+    setEditingProduct(null);
+    
+    // Обновление списка продуктов
+    loadProducts();
+    if (fetchProducts) fetchProducts();
+    
+  } catch (error) {
+    console.error('Error saving product:', error);
+    alert(`Error: ${error.response?.data?.error || error.message}`);
+  }
+};
 
   const handleEdit = (product) => {
     setEditingProduct(product);
