@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-const Header = ({ cartCount, cartTotal, user, onLogout }) => {
+const Header = ({ cartCount, cartTotal, user, onLogout, theme, onToggleTheme }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -20,7 +20,7 @@ const Header = ({ cartCount, cartTotal, user, onLogout }) => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
       <div className="container">
         <Link className="navbar-brand d-flex align-items-center" to="/">
           <i className="bi bi-headphones me-2 text-primary"></i>
@@ -93,6 +93,16 @@ const Header = ({ cartCount, cartTotal, user, onLogout }) => {
                 <span className="ms-2 text-success fw-bold">${cartTotal.toFixed(2)}</span>
               )}
             </Link>
+
+            <button
+              type="button"
+              className="btn btn-outline-secondary ms-2 theme-toggle-btn"
+              onClick={onToggleTheme}
+              aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+              title={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+            >
+              <i className={`bi ${theme === 'dark' ? 'bi-sun-fill' : 'bi-moon-fill'}`}></i>
+            </button>
           </div>
         </div>
       </div>

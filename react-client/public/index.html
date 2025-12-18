@@ -6,6 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta name="description" content="iPod & Headphones Store - Premium audio products online shop" />
+
+    <script>
+        (function() {
+            try {
+                var saved = localStorage.getItem('theme');
+                var theme = (saved === 'dark' || saved === 'light')
+                    ? saved
+                    : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
+                var root = document.documentElement;
+                root.classList.remove('theme-dark', 'theme-light');
+                root.classList.add(theme === 'dark' ? 'theme-dark' : 'theme-light');
+            } catch (e) {}
+        })();
+    </script>
     
     <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/favicon-32x32.png">
@@ -43,6 +58,15 @@
             -moz-osx-font-smoothing: grayscale;
             background-color: #f8f9fa;
         }
+
+        html.theme-dark body {
+            background-color: #0b0f14;
+            color: #eaeef2;
+        }
+        html.theme-light body {
+            background-color: #f8f9fa;
+            color: #111;
+        }
         
         #root {
             min-height: 100vh;
@@ -72,7 +96,7 @@
         }
         
         @media (prefers-color-scheme: dark) {
-            body {
+            html:not(.theme-light) body {
                 background-color: #121212;
                 color: #ffffff;
             }

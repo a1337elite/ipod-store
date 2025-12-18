@@ -36,6 +36,11 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
   const [user, setUser] = useState(null);
+  const [theme, setTheme] = useState(() => {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark' || saved === 'light') return saved;
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  });
 
   const API_URL = 'http://localhost:5000/api';
 
@@ -66,6 +71,18 @@ function App() {
     
     fetchProducts();
   }, []);
+
+  // Применяем тему
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.remove('theme-dark', 'theme-light');
+    root.classList.add(theme === 'dark' ? 'theme-dark' : 'theme-light');
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
+  };
 
   // Загрузка продуктов
   const fetchProducts = async () => {
@@ -137,116 +154,120 @@ function App() {
           cartTotal={cartTotal}
           user={user}
           onLogout={handleLogout}
+          theme={theme}
+          onToggleTheme={toggleTheme}
         />
         
-        <Routes>
-          {/* Публичные маршруты */}
-          <Route path="/" element={
-            <div className="container mt-4">
-              <div className="text-center mb-5">
-                <h1 className="display-4">Welcome to iPod & Headphones Store</h1>
-                <p className="lead">Discover the best selection of iPods and premium headphones</p>
-                {!user && (
-                  <div className="mt-3">
-                    <a href="/login" className="btn btn-primary me-2">Login</a>
-                    <a href="/register" className="btn btn-outline-primary">Register</a>
-                  </div>
-                )}
-                {user && (
-                  <div className="mt-3">
-                    <span className="badge bg-success me-2">
-                      Welcome back, {user.name || user.email}!
-                    </span>
-                    {/* УБРАЛИ "Go to Profile" кнопку */}
-                  </div>
-                )}
-              </div>
-
-              <div className="row">
-                <div className="col-md-3">
-                  <div className="card mb-4">
-                    <div className="card-header">
-                      <h5>Categories</h5>
+        <main className="app-main">
+          <Routes>
+            {/* Публичные маршруты */}
+            <Route path="/" element={
+              <div className="container mt-4">
+                <div className="text-center mb-5">
+                  <h1 className="display-4">Welcome to iPod & Headphones Store</h1>
+                  <p className="lead">Discover the best selection of iPods and premium headphones</p>
+                  {!user && (
+                    <div className="mt-3">
+                      <a href="/login" className="btn btn-primary me-2">Login</a>
+                      <a href="/register" className="btn btn-outline-primary">Register</a>
                     </div>
-                    <div className="card-body">
-                      <ul className="list-unstyled">
-                        {categories.map(category => (
-                          <li key={category.id} className="mb-2">
-                            <a 
-                              href={`/category/${category.id}`}
-                              className="text-decoration-none"
-                            >
-                              {category.name} ({category.count})
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
+                  )}
+                  {user && (
+                    <div className="mt-3">
+                      <span className="badge bg-success me-2">
+                        Welcome back, {user.name || user.email}!
+                      </span>
+                      {/* УБРАЛИ "Go to Profile" кнопку */}
                     </div>
-                  </div>
-                </div>
-
-                <div className="col-md-9">
-                  {loading ? (
-                    <div className="text-center py-5">
-                      <div className="spinner-border text-primary" role="status">
-                        <span className="visually-hidden">Loading...</span>
-                      </div>
-                    </div>
-                  ) : (
-                    <ProductList 
-                      products={products} 
-                      addToCart={addToCart} 
-                    />
                   )}
                 </div>
-              </div>
-            </div>
-          } />
-          
-          <Route path="/product/:id" element={
-            <div className="container mt-4">
-              <ProductDetail addToCart={addToCart} />
-            </div>
-          } />
-          
-          <Route path="/category/:category" element={
-            <div className="container mt-4">
-              <ProductList addToCart={addToCart} />
-            </div>
-          } />
-          
-          <Route path="/cart" element={
-            <div className="container mt-4">
-              <Cart 
-                cart={cart} 
-                removeFromCart={removeFromCart} 
-                updateQuantity={updateQuantity} 
-                total={cartTotal}
-                user={user}
-              />
-            </div>
-          } />
-          
-          {/* Маршруты аутентификации */}
-          <Route path="/login" element={user ? <Navigate to="/" /> : <Login setUser={setUser} />} />
-          <Route path="/register" element={user ? <Navigate to="/" /> : <Register />} />
-          <Route path="/profile" element={
-            <ProtectedRoute>
-              <UserProfile user={user} setUser={setUser} />
-            </ProtectedRoute>
-          } />
-          
-          {/* Админ маршруты */}
-          <Route path="/admin" element={
-            <ProtectedRoute requireAdmin>
-              <div className="container mt-4">
-                <AdminPanel fetchProducts={fetchProducts} user={user} />
-              </div>
-            </ProtectedRoute>
-          } />
-        </Routes>
 
-        <footer className="bg-dark text-white mt-5 py-4">
+                <div className="row">
+                  <div className="col-md-3">
+                    <div className="card mb-4">
+                      <div className="card-header">
+                        <h5>Categories</h5>
+                      </div>
+                      <div className="card-body">
+                        <ul className="list-unstyled">
+                          {categories.map(category => (
+                            <li key={category.id} className="mb-2">
+                              <a 
+                                href={`/category/${category.id}`}
+                                className="text-decoration-none"
+                              >
+                                {category.name} ({category.count})
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="col-md-9">
+                    {loading ? (
+                      <div className="text-center py-5">
+                        <div className="spinner-border text-primary" role="status">
+                          <span className="visually-hidden">Loading...</span>
+                        </div>
+                      </div>
+                    ) : (
+                      <ProductList 
+                        products={products} 
+                        addToCart={addToCart} 
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
+            } />
+            
+            <Route path="/product/:id" element={
+              <div className="container mt-4">
+                <ProductDetail addToCart={addToCart} />
+              </div>
+            } />
+            
+            <Route path="/category/:category" element={
+              <div className="container mt-4">
+                <ProductList addToCart={addToCart} />
+              </div>
+            } />
+            
+            <Route path="/cart" element={
+              <div className="container mt-4">
+                <Cart 
+                  cart={cart} 
+                  removeFromCart={removeFromCart} 
+                  updateQuantity={updateQuantity} 
+                  total={cartTotal}
+                  user={user}
+                />
+              </div>
+            } />
+            
+            {/* Маршруты аутентификации */}
+            <Route path="/login" element={user ? <Navigate to="/" /> : <Login setUser={setUser} />} />
+            <Route path="/register" element={user ? <Navigate to="/" /> : <Register />} />
+            <Route path="/profile" element={
+              <ProtectedRoute>
+                <UserProfile user={user} setUser={setUser} />
+              </ProtectedRoute>
+            } />
+            
+            {/* Админ маршруты */}
+            <Route path="/admin" element={
+              <ProtectedRoute requireAdmin>
+                <div className="container mt-4">
+                  <AdminPanel fetchProducts={fetchProducts} user={user} />
+                </div>
+              </ProtectedRoute>
+            } />
+          </Routes>
+        </main>
+
+        <footer className="bg-light text-dark py-4 app-footer border-top">
           <div className="container">
             <div className="row">
               <div className="col-md-6">

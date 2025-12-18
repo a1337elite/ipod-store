@@ -1,4 +1,94 @@
 /* Стили для профиля */
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-main {
+  flex: 1;
+}
+
+.app-footer {
+  margin-top: auto;
+}
+
+/* Кнопка переключения темы (кружок с луной) */
+.theme-toggle-btn {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle-btn i {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+/* Dark theme */
+html.theme-dark body {
+  background-color: #0b0f14;
+  color: #eaeef2;
+}
+
+html.theme-dark .navbar,
+html.theme-dark .app-footer {
+  background-color: #121821 !important;
+  color: #eaeef2 !important;
+}
+
+html.theme-dark .navbar .navbar-brand,
+html.theme-dark .navbar .nav-link,
+html.theme-dark .navbar .btn,
+html.theme-dark .app-footer a,
+html.theme-dark .app-footer h5,
+html.theme-dark .app-footer p {
+  color: #eaeef2 !important;
+}
+
+html.theme-dark .app-footer.border-top {
+  border-top-color: #223042 !important;
+}
+
+html.theme-dark .card {
+  background-color: #121821;
+  border-color: #223042;
+  color: #eaeef2;
+}
+
+html.theme-dark .table {
+  color: #eaeef2;
+}
+
+html.theme-dark .list-group-item {
+  background-color: #121821;
+  border-color: #223042;
+  color: #eaeef2;
+}
+
+html.theme-dark .text-muted {
+  color: #a8b3c2 !important;
+}
+
+html.theme-dark .form-control,
+html.theme-dark .form-select {
+  background-color: #0f141c;
+  border-color: #223042;
+  color: #eaeef2;
+}
+
+html.theme-dark .form-control::placeholder {
+  color: #7f8a9a;
+}
+
+html.theme-dark .btn-outline-secondary {
+  border-color: #2f3f55;
+}
+
 .order-card {
   transition: all 0.3s ease;
   border-left: 4px solid #0d6efd;
