@@ -1,5 +1,5 @@
-const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { hashPassword, comparePassword } = require('../utils/password');
 
 class User {
   constructor(db) {
@@ -15,7 +15,7 @@ class User {
         throw new Error('User with this email already exists');
       }
 
-      const hashedPassword = await bcrypt.hash(password, 10);
+      const hashedPassword = await hashPassword(password, 10);
 
       const result = await this.db.run(
         `INSERT INTO users (email, password, name, role) VALUES (?, ?, ?, ?)`,
@@ -39,7 +39,7 @@ class User {
         throw new Error('Invalid email or password');
       }
 
-      const isValidPassword = await bcrypt.compare(password, user.password);
+      const isValidPassword = await comparePassword(password, user.password);
       if (!isValidPassword) {
         throw new Error('Invalid email or password');
       }
@@ -109,12 +109,12 @@ class User {
         throw new Error('User not found');
       }
 
-      const isValidPassword = await bcrypt.compare(oldPassword, user.password);
+      const isValidPassword = await comparePassword(oldPassword, user.password);
       if (!isValidPassword) {
         throw new Error('Current password is incorrect');
       }
 
-      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      const hashedPassword = await hashPassword(newPassword, 10);
 
       await this.db.run(
         'UPDATE users SET password = ? WHERE id = ?',

@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const { authenticateToken, requireAdmin } = require('../middleware/auth');
-const bcrypt = require('bcryptjs');
 
 module.exports = (userModel, productModel) => {
   router.get('/stats', authenticateToken, requireAdmin, async (req, res) => {

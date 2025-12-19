@@ -1,6 +1,6 @@
 const sqlite3 = require('sqlite3').verbose();
 const { open } = require('sqlite');
-const bcrypt = require('bcryptjs');
+const { hashPassword } = require('../utils/password');
 
 require('dotenv').config({ path: '.env' });
 
@@ -91,7 +91,7 @@ async function createDefaultAdmin(db) {
         throw new Error('Admin password is not defined');
       }
       
-      const hashedPassword = await bcrypt.hash(adminPassword, 10);
+      const hashedPassword = await hashPassword(adminPassword, 10);
       
       await db.run(
         `INSERT INTO users (email, password, name, role) VALUES (?, ?, ?, ?)`,
