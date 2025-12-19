@@ -2,17 +2,14 @@ const sqlite3 = require('sqlite3').verbose();
 const { open } = require('sqlite');
 const bcrypt = require('bcryptjs');
 
-// Проверяем переменные окружения
 require('dotenv').config({ path: '.env' });
 
-// Проверяем, что переменные окружения загружены
 console.log('Environment variables loaded:', {
   NODE_ENV: process.env.NODE_ENV,
   DEFAULT_ADMIN_EMAIL: process.env.DEFAULT_ADMIN_EMAIL ? 'set' : 'not set',
   DEFAULT_ADMIN_PASSWORD: process.env.DEFAULT_ADMIN_PASSWORD ? 'set' : 'not set'
 });
 
-// Подключаемся к базе данных
 async function connectToDatabase() {
   try {
     const db = await open({
@@ -22,7 +19,6 @@ async function connectToDatabase() {
 
     console.log('✅ Connected to SQLite database');
 
-    // Создаем таблицу товаров
     await db.exec(`
       CREATE TABLE IF NOT EXISTS products (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -37,7 +33,6 @@ async function connectToDatabase() {
       )
     `);
 
-    // Создаем таблицу пользователей
     await db.exec(`
       CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -51,7 +46,6 @@ async function connectToDatabase() {
       )
     `);
 
-    // Создаем таблицу сессий
     await db.exec(`
       CREATE TABLE IF NOT EXISTS sessions (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -65,10 +59,8 @@ async function connectToDatabase() {
 
     console.log('✅ Database tables ready');
 
-    // Проверяем наличие администратора
     await createDefaultAdmin(db);
 
-    // Проверяем, есть ли товары
     const count = await db.get('SELECT COUNT(*) as count FROM products');
     if (count.count === 0) {
       await seedProducts(db);
@@ -82,10 +74,8 @@ async function connectToDatabase() {
   }
 }
 
-// Создаем администратора по умолчанию
 async function createDefaultAdmin(db) {
   try {
-    // Используем значения по умолчанию, если переменные окружения не установлены
     const adminEmail = process.env.DEFAULT_ADMIN_EMAIL || 'admin@ipodstore.com';
     const adminPassword = process.env.DEFAULT_ADMIN_PASSWORD || 'admin123';
     
@@ -97,7 +87,6 @@ async function createDefaultAdmin(db) {
     );
 
     if (!adminExists) {
-      // Проверяем, что пароль не undefined
       if (!adminPassword) {
         throw new Error('Admin password is not defined');
       }

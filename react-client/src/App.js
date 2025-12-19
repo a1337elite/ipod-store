@@ -5,7 +5,6 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
-// Компоненты
 import Header from './components/Header';
 import ProductList from './components/ProductList';
 import ProductDetail from './components/ProductDetail';
@@ -15,7 +14,6 @@ import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import UserProfile from './components/UserProfile';
 
-// Компонент-обертка для защищенных маршрутов
 const ProtectedRoute = ({ children, requireAdmin = false }) => {
   const user = JSON.parse(localStorage.getItem('user') || 'null');
   
@@ -44,13 +42,11 @@ function App() {
 
   const API_URL = 'http://localhost:5000/api';
 
-  // Проверяем авторизацию при загрузке
   useEffect(() => {
     const token = localStorage.getItem('token');
     const savedUser = localStorage.getItem('user');
     
     if (token && savedUser) {
-      // Проверяем токен
       axios.post(`${API_URL}/auth/verify`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       })
@@ -58,7 +54,6 @@ function App() {
         if (response.data.valid) {
           setUser(response.data.user);
         } else {
-          // Токен невалиден, очищаем localStorage
           localStorage.removeItem('token');
           localStorage.removeItem('user');
         }
@@ -72,7 +67,6 @@ function App() {
     fetchProducts();
   }, []);
 
-  // Применяем тему
   useEffect(() => {
     const root = document.documentElement;
     root.classList.remove('theme-dark', 'theme-light');
@@ -84,14 +78,12 @@ function App() {
     setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
   };
 
-  // Загрузка продуктов
   const fetchProducts = async () => {
     try {
       setLoading(true);
       const response = await axios.get(`${API_URL}/products`);
       setProducts(response.data);
       
-      // Получаем категории
       const categoriesResponse = await axios.get(`${API_URL}/categories`);
       setCategories(categoriesResponse.data);
     } catch (error) {
@@ -101,7 +93,6 @@ function App() {
     }
   };
 
-  // Добавление в корзину
   const addToCart = (product) => {
     setCart(prevCart => {
       const existingItem = prevCart.find(item => item.id === product.id);
@@ -117,12 +108,10 @@ function App() {
     alert(`${product.title} added to cart!`);
   };
 
-  // Удаление из корзины
   const removeFromCart = (productId) => {
     setCart(prevCart => prevCart.filter(item => item.id !== productId));
   };
 
-  // Обновление количества
   const updateQuantity = (productId, quantity) => {
     if (quantity < 1) {
       removeFromCart(productId);
@@ -135,15 +124,13 @@ function App() {
     );
   };
 
-  // Общая стоимость корзины
   const cartTotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
 
-  // Выход из системы
   const handleLogout = () => {
     setUser(null);
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    setCart([]); // Очищаем корзину при выходе
+    setCart([]); 
   };
 
   return (
@@ -160,7 +147,6 @@ function App() {
         
         <main className="app-main">
           <Routes>
-            {/* Публичные маршруты */}
             <Route path="/" element={
               <div className="container mt-4">
                 <div className="text-center mb-5">
@@ -177,7 +163,6 @@ function App() {
                       <span className="badge bg-success me-2">
                         Welcome back, {user.name || user.email}!
                       </span>
-                      {/* УБРАЛИ "Go to Profile" кнопку */}
                     </div>
                   )}
                 </div>
@@ -247,7 +232,6 @@ function App() {
               </div>
             } />
             
-            {/* Маршруты аутентификации */}
             <Route path="/login" element={user ? <Navigate to="/" /> : <Login setUser={setUser} />} />
             <Route path="/register" element={user ? <Navigate to="/" /> : <Register />} />
             <Route path="/profile" element={
@@ -256,7 +240,6 @@ function App() {
               </ProtectedRoute>
             } />
             
-            {/* Админ маршруты */}
             <Route path="/admin" element={
               <ProtectedRoute requireAdmin>
                 <div className="container mt-4">
@@ -275,7 +258,7 @@ function App() {
                 <p>Your one-stop shop for all Apple audio products and premium headphones.</p>
               </div>
               <div className="col-md-6 text-md-end">
-                <p>© 2024 iPod & Headphones Store. All rights reserved.</p>
+                <p>© 2025 iPod & Headphones Store. All rights reserved.</p>
               </div>
             </div>
           </div>

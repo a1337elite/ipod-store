@@ -30,7 +30,6 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Валидация
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
       return;
@@ -60,7 +59,6 @@ const Register = () => {
         name: ''
       });
       
-      // Автоматически перенаправляем через 2 секунды
       setTimeout(() => {
         navigate('/login');
       }, 2000);

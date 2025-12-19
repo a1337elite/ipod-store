@@ -25,13 +25,11 @@ const ChangeAdminPassword = ({ user }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Проверка на администратора
     if (!user || user.role !== 'admin') {
       setMessage({ type: 'error', text: 'Admin access required' });
       return;
     }
 
-    // Валидация
     if (formData.newPassword !== formData.confirmPassword) {
       setMessage({ type: 'error', text: 'New passwords do not match' });
       return;
@@ -61,14 +59,12 @@ const ChangeAdminPassword = ({ user }) => {
         text: 'Admin password changed successfully! Please login again.' 
       });
       
-      // Очищаем форму
       setFormData({
         currentPassword: '',
         newPassword: '',
         confirmPassword: ''
       });
 
-      // Разлогиниваем через 2 секунды
       setTimeout(() => {
         localStorage.removeItem('token');
         localStorage.removeItem('user');

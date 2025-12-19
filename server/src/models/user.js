@@ -6,21 +6,17 @@ class User {
     this.db = db;
   }
 
-  // Регистрация нового пользователя
   async register(userData) {
     try {
       const { email, password, name } = userData;
 
-      // Проверяем, существует ли пользователь
       const existingUser = await this.db.get('SELECT id FROM users WHERE email = ?', email);
       if (existingUser) {
         throw new Error('User with this email already exists');
       }
 
-      // Хешируем пароль
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      // Создаем пользователя
       const result = await this.db.run(
         `INSERT INTO users (email, password, name, role) VALUES (?, ?, ?, ?)`,
         [email, hashedPassword, name || null, 'user']
@@ -32,10 +28,8 @@ class User {
     }
   }
 
-  // Вход пользователя
   async login(email, password) {
     try {
-      // Находим пользователя
       const user = await this.db.get(
         'SELECT * FROM users WHERE email = ? AND isActive = true',
         email
@@ -45,19 +39,16 @@ class User {
         throw new Error('Invalid email or password');
       }
 
-      // Проверяем пароль
       const isValidPassword = await bcrypt.compare(password, user.password);
       if (!isValidPassword) {
         throw new Error('Invalid email or password');
       }
 
-      // Обновляем время последнего входа
       await this.db.run(
         'UPDATE users SET lastLogin = CURRENT_TIMESTAMP WHERE id = ?',
         user.id
       );
 
-      // Создаем JWT токен
       const token = jwt.sign(
         {
           id: user.id,
@@ -84,7 +75,6 @@ class User {
     }
   }
 
-  // Получить пользователя по ID
   async getById(id) {
     try {
       const user = await this.db.get(
@@ -102,7 +92,6 @@ class User {
     }
   }
 
-  // Получить всех пользователей
   async getAllUsers() {
     try {
       return await this.db.all(
@@ -113,25 +102,20 @@ class User {
     }
   }
 
-  // Изменить пароль
   async changePassword(id, oldPassword, newPassword) {
     try {
-      // Получаем пользователя с паролем
       const user = await this.db.get('SELECT * FROM users WHERE id = ?', id);
       if (!user) {
         throw new Error('User not found');
       }
 
-      // Проверяем старый пароль
       const isValidPassword = await bcrypt.compare(oldPassword, user.password);
       if (!isValidPassword) {
         throw new Error('Current password is incorrect');
       }
 
-      // Хешируем новый пароль
       const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-      // Обновляем пароль
       await this.db.run(
         'UPDATE users SET password = ? WHERE id = ?',
         [hashedPassword, id]
@@ -143,7 +127,6 @@ class User {
     }
   }
 
-  // Проверка JWT токена
   async verifyToken(token) {
     try {
       const decoded = jwt.verify(

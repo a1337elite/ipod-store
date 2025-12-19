@@ -3,12 +3,10 @@ const router = express.Router();
 const { authenticateToken } = require('../middleware/auth');
 
 module.exports = (userModel) => {
-  // Регистрация нового пользователя
   router.post('/register', async (req, res) => {
     try {
       const { email, password, name } = req.body;
 
-      // Валидация
       if (!email || !password) {
         return res.status(400).json({ error: 'Email and password are required' });
       }
@@ -34,7 +32,6 @@ module.exports = (userModel) => {
     }
   });
 
-  // Вход пользователя
   router.post('/login', async (req, res) => {
     try {
       const { email, password } = req.body;
@@ -55,7 +52,6 @@ module.exports = (userModel) => {
     }
   });
 
-  // Получить профиль текущего пользователя
   router.get('/profile', authenticateToken, async (req, res) => {
     try {
       const user = await userModel.getById(req.user.id);
@@ -65,7 +61,6 @@ module.exports = (userModel) => {
     }
   });
 
-  // Обновить профиль
   router.put('/profile', authenticateToken, async (req, res) => {
     try {
       const { name, email } = req.body;
@@ -85,7 +80,6 @@ module.exports = (userModel) => {
     }
   });
 
-  // ВАЖНО: Изменить пароль - этот маршрут должен быть здесь
   router.post('/change-password', authenticateToken, async (req, res) => {
     try {
       const { currentPassword, newPassword } = req.body;
@@ -107,7 +101,6 @@ module.exports = (userModel) => {
     }
   });
 
-  // Проверка токена
   router.post('/verify', authenticateToken, (req, res) => {
     res.json({
       valid: true,
@@ -115,7 +108,6 @@ module.exports = (userModel) => {
     });
   });
 
-  // Выход
   router.post('/logout', authenticateToken, (req, res) => {
     res.json({ message: 'Logged out successfully' });
   });

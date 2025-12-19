@@ -4,7 +4,6 @@ const { authenticateToken, requireAdmin } = require('../middleware/auth');
 const bcrypt = require('bcryptjs');
 
 module.exports = (userModel, productModel) => {
-  // Получить статистику системы
   router.get('/stats', authenticateToken, requireAdmin, async (req, res) => {
     try {
       const productStats = await productModel.getCategoryStats();
@@ -26,7 +25,6 @@ module.exports = (userModel, productModel) => {
     }
   });
 
-  // Получить всех пользователей
   router.get('/users', authenticateToken, requireAdmin, async (req, res) => {
     try {
       const users = await userModel.getAllUsers();
@@ -36,7 +34,6 @@ module.exports = (userModel, productModel) => {
     }
   });
 
-  // Изменить пароль администратора
   router.post('/change-admin-password', authenticateToken, requireAdmin, async (req, res) => {
     try {
       const { currentPassword, newPassword } = req.body;

@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 
 module.exports = (productModel) => {
-  // Получить все товары
   router.get('/', async (req, res) => {
     try {
       const products = await productModel.getAll();
@@ -13,7 +12,6 @@ module.exports = (productModel) => {
     }
   });
 
-  // Получить товары по категории
   router.get('/category/:category', async (req, res) => {
     try {
       const products = await productModel.getByCategory(req.params.category);
@@ -24,7 +22,6 @@ module.exports = (productModel) => {
     }
   });
 
-  // Поиск товаров
   router.get('/search', async (req, res) => {
     try {
       const { q } = req.query;
@@ -39,7 +36,6 @@ module.exports = (productModel) => {
     }
   });
 
-  // Получить товар по ID
   router.get('/:id', async (req, res) => {
     try {
       const product = await productModel.getById(req.params.id);
@@ -54,12 +50,10 @@ module.exports = (productModel) => {
     }
   });
 
-  // Создать новый товар
   router.post('/', async (req, res) => {
     try {
       const { title, description, price, category, image, inStock } = req.body;
 
-      // Валидация
       if (!title || !description || !price || !category) {
         return res.status(400).json({ 
           error: 'Missing required fields',
@@ -87,12 +81,10 @@ module.exports = (productModel) => {
     }
   });
 
-  // Обновить товар
   router.put('/:id', async (req, res) => {
     try {
       const { title, description, price, category, image, inStock } = req.body;
 
-      // Валидация
       if (!title || !description || !price || !category) {
         return res.status(400).json({ 
           error: 'Missing required fields',
@@ -124,7 +116,6 @@ module.exports = (productModel) => {
     }
   });
 
-  // Удалить товар
   router.delete('/:id', async (req, res) => {
     try {
       const product = await productModel.delete(req.params.id);
@@ -142,7 +133,6 @@ module.exports = (productModel) => {
     }
   });
 
-  // Получить статистику
   router.get('/stats/categories', async (req, res) => {
     try {
       const stats = await productModel.getCategoryStats();

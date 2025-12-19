@@ -37,9 +37,7 @@ const Cart = ({ cart, removeFromCart, updateQuantity, total, user }) => {
       return;
     }
     
-    // В реальном приложении здесь был бы процесс оформления заказа
     alert(`Order placed successfully! Total: $${total.toFixed(2)}`);
-    // Очищаем корзину
     cart.forEach(item => removeFromCart(item.id));
   };
 

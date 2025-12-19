@@ -51,21 +51,18 @@ const AdminPanel = ({ fetchProducts }) => {
       description: formData.description,
       price: parseFloat(formData.price),
       category: formData.category,
-      image: formData.image || undefined, // undefined вместо пустой строки
+      image: formData.image || undefined, 
       inStock: formData.inStock
     };
 
     if (editingProduct) {
-      // Используем PUT для обновления
       await axios.put(`${API_URL}/products/${editingProduct.id}`, productData);
       alert('Product updated successfully!');
     } else {
-      // Используем POST для создания
       await axios.post(`${API_URL}/products`, productData);
       alert('Product added successfully!');
     }
     
-    // Сброс формы
     setFormData({
       title: '',
       description: '',
@@ -76,7 +73,6 @@ const AdminPanel = ({ fetchProducts }) => {
     });
     setEditingProduct(null);
     
-    // Обновление списка продуктов
     loadProducts();
     if (fetchProducts) fetchProducts();
     

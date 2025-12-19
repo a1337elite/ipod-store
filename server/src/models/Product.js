@@ -3,7 +3,6 @@ class Product {
     this.db = db;
   }
 
-  // Получить все товары
   async getAll() {
     try {
       return await this.db.all('SELECT * FROM products ORDER BY createdAt DESC');
@@ -12,7 +11,6 @@ class Product {
     }
   }
 
-  // Получить товар по ID
   async getById(id) {
     try {
       return await this.db.get('SELECT * FROM products WHERE id = ?', id);
@@ -21,7 +19,6 @@ class Product {
     }
   }
 
-  // Получить товары по категории
   async getByCategory(category) {
     try {
       return await this.db.all('SELECT * FROM products WHERE category = ? ORDER BY createdAt DESC', category);
@@ -30,7 +27,6 @@ class Product {
     }
   }
 
-  // Создать новый товар
   async create(productData) {
     try {
       const { title, description, price, category, image, inStock } = productData;
@@ -41,14 +37,12 @@ class Product {
         [title, description, price, category, image || null, inStock ? 1 : 0]
       );
 
-      // Возвращаем созданный товар
       return await this.getById(result.lastID);
     } catch (error) {
       throw new Error(`Error creating product: ${error.message}`);
     }
   }
 
-  // Обновить товар
   async update(id, productData) {
     try {
       const { title, description, price, category, image, inStock } = productData;
@@ -67,7 +61,6 @@ class Product {
     }
   }
 
-  // Удалить товар
   async delete(id) {
     try {
       const product = await this.getById(id);
@@ -82,7 +75,6 @@ class Product {
     }
   }
 
-  // Получить статистику по категориям
   async getCategoryStats() {
     try {
       return await this.db.all(`
@@ -99,7 +91,6 @@ class Product {
     }
   }
 
-  // Поиск товаров
   async search(query) {
     try {
       return await this.db.all(`

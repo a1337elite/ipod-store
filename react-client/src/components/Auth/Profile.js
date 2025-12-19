@@ -15,7 +15,6 @@ const AdminPanel = ({ fetchProducts, user }) => {
   const token = localStorage.getItem('token');
 
   useEffect(() => {
-    // Проверяем, является ли пользователь администратором
     if (!user || user.role !== 'admin') {
       navigate('/');
       return;
@@ -136,7 +135,6 @@ const AdminPanel = ({ fetchProducts, user }) => {
         </div>
       )}
 
-      {/* Статистика */}
       {stats && (
         <div className="row mb-4">
           <div className="col-md-3">
@@ -174,7 +172,6 @@ const AdminPanel = ({ fetchProducts, user }) => {
         </div>
       )}
 
-      {/* Табы */}
       <ul className="nav nav-tabs mb-4">
         <li className="nav-item">
           <button 
@@ -202,7 +199,6 @@ const AdminPanel = ({ fetchProducts, user }) => {
         </li>
       </ul>
 
-      {/* Контент табов */}
       <div className="tab-content">
         {activeTab === 'products' && (
           <div className="table-responsive">

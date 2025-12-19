@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 
-// Middleware для проверки JWT токена
 const authenticateToken = async (req, res, next) => {
   try {
     const authHeader = req.headers['authorization'];
@@ -28,7 +27,6 @@ const authenticateToken = async (req, res, next) => {
   }
 };
 
-// Middleware для проверки роли администратора
 const requireAdmin = (req, res, next) => {
   if (!req.user || req.user.role !== 'admin') {
     return res.status(403).json({ error: 'Admin access required' });

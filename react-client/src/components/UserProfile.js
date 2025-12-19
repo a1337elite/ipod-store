@@ -23,7 +23,6 @@ const UserProfile = ({ user, setUser }) => {
     lastOrder: ''
   });
   
-  // Состояния для отображения паролей
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -47,7 +46,6 @@ const UserProfile = ({ user, setUser }) => {
       confirmPassword: ''
     });
     
-    // Загружаем данные пользователя только для обычных пользователей
     if (!isAdmin) {
       loadUserData();
     } else {
@@ -56,7 +54,6 @@ const UserProfile = ({ user, setUser }) => {
   }, [user, navigate, isAdmin]);
 
   const loadUserData = () => {
-    // В реальном приложении здесь был бы запрос к API
     const demoOrders = [
       {
         id: 1,
@@ -84,11 +81,9 @@ const UserProfile = ({ user, setUser }) => {
     setTimeout(() => {
       setOrders(demoOrders);
       
-      // Рассчитываем статистику
       const totalOrders = demoOrders.length;
       const totalSpent = demoOrders.reduce((sum, order) => sum + order.total, 0);
       
-      // Находим любимую категорию
       const categoryCount = {};
       demoOrders.forEach(order => {
         order.items.forEach(item => {
@@ -103,14 +98,12 @@ const UserProfile = ({ user, setUser }) => {
         );
       }
       
-      // Форматируем категорию
       const categoryNames = {
         'ipod': 'iPods',
         'headphones': 'Headphones',
         'accessories': 'Accessories'
       };
       
-      // Последний заказ
       const lastOrder = demoOrders.length > 0 
         ? new Date(demoOrders[0].date).toLocaleDateString()
         : 'No orders yet';
@@ -139,7 +132,6 @@ const UserProfile = ({ user, setUser }) => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // Обновляем пользователя
       const updatedUser = { ...user, ...response.data.user };
       setUser(updatedUser);
       localStorage.setItem('user', JSON.stringify(updatedUser));
@@ -180,7 +172,6 @@ const UserProfile = ({ user, setUser }) => {
 
       setMessage({ type: 'success', text: 'Password changed successfully!' });
       
-      // Сбрасываем поля пароля
       setFormData({
         ...formData,
         currentPassword: '',
@@ -188,7 +179,6 @@ const UserProfile = ({ user, setUser }) => {
         confirmPassword: ''
       });
       
-      // Сбрасываем отображение паролей
       setShowCurrentPassword(false);
       setShowNewPassword(false);
       setShowConfirmPassword(false);
@@ -243,7 +233,6 @@ const UserProfile = ({ user, setUser }) => {
     return Object.entries(counts);
   };
 
-  // Функция для переключения видимости пароля
   const togglePasswordVisibility = (field) => {
     switch (field) {
       case 'current':
@@ -294,7 +283,6 @@ const UserProfile = ({ user, setUser }) => {
               <h6 className="card-title">Quick Actions</h6>
               <div className="list-group list-group-flush">
                 {isAdmin ? (
-                  // Для администратора - ТОЛЬКО Admin Panel и Logout
                   <>
                     <Link to="/admin" className="list-group-item list-group-item-action text-warning">
                       <i className="bi bi-shield-lock me-2"></i>Admin Panel
@@ -307,7 +295,6 @@ const UserProfile = ({ user, setUser }) => {
                     </button>
                   </>
                 ) : (
-                  // Для обычного пользователя
                   <>
                     <button 
                       className={`list-group-item list-group-item-action ${activeTab === 'profile' ? 'active' : ''}`}
@@ -351,7 +338,6 @@ const UserProfile = ({ user, setUser }) => {
 
         <div className="col-lg-9">
           {isAdmin ? (
-            // УПРОЩЕННЫЙ профиль для администратора
             <div className="card">
               <div className="card-body text-center py-5">
                 <i className="bi bi-shield-lock display-1 text-warning mb-4"></i>
@@ -405,7 +391,6 @@ const UserProfile = ({ user, setUser }) => {
               </div>
             </div>
           ) : (
-            // Контент для обычного пользователя
             <div className="card">
               <div className="card-body">
                 {message.text && (

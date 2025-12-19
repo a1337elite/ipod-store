@@ -52,7 +52,6 @@ const Header = ({ cartCount, cartTotal, user, onLogout, theme, onToggleTheme }) 
           <div className="d-flex align-items-center">
             {user ? (
               <div className="d-flex align-items-center me-3">
-                {/* Кнопка Profile (теперь кликабельная) */}
                 <button 
                   className="btn btn-outline-primary"
                   onClick={handleProfileClick}
@@ -65,7 +64,6 @@ const Header = ({ cartCount, cartTotal, user, onLogout, theme, onToggleTheme }) 
                   )}
                 </button>
                 
-                {/* Кнопка Logout рядом */}
                 <button 
                   className="btn btn-outline-danger ms-2"
                   onClick={handleLogout}

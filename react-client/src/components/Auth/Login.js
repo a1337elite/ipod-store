@@ -29,14 +29,11 @@ const Login = ({ setUser }) => {
     try {
       const response = await axios.post(`${API_URL}/auth/login`, formData);
       
-      // Сохраняем токен в localStorage
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
       
-      // Обновляем состояние пользователя
       setUser(response.data.user);
       
-      // Перенаправляем на главную страницу
       navigate('/');
       
     } catch (err) {
